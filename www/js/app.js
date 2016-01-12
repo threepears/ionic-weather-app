@@ -35,40 +35,52 @@ angular.module('starter', ['ionic', 'angular-skycons'])
     var url = "/api/forecast/" + apikey + "/" + lat + "," + long;
 
     $http.get(url).then(function(res) {
-      console.log(res);
+      
+      var background = document.getElementsByClassName("pane");
+      
       weather.temp = Math.round(res.data.currently.temperature);
       weather.icon = res.data.currently.icon;
 
       switch (weather.icon) {
         case "clear-day":
-          weather.color = "#6dcff6";
+          weather.color = "yellow";
+          background[0].style.backgroundImage="url(http://www.hdwallpapers.in/walls/sunny_day-wide.jpg)";
           break;
         case "clear-night":
-          weather.color = "#003471";
+          weather.color = "lightskyblue";
+          background[0].style.backgroundImage="url(http://s19.postimg.org/4m9yp49fn/weather_bg_sunny_night_sky.jpg)";
           break;
         case "rain":
-          weather.color = "#00aeef";
+          weather.color = "lightskyblue";
+          background[0].style.backgroundImage="url(http://cdn.allwallpaper.in/wallpapers/1920x1080/4324/night-rain-skies-water-weather-1920x1080-wallpaper.jpg)";
           break;
         case "snow":
           weather.color = "#cccccc";
+          background[0].style.backgroundImage="url(http://stuffpoint.com/the-winter/image/40739-the-winter-winter.jpg)";
           break;
         case "sleet":
-          weather.color = "#a1a1a1";
+          weather.color = "white";
+          background[0].style.backgroundImage="url(https://i.ytimg.com/vi/7vZMj9GNJBA/maxresdefault.jpg)";
           break;
         case "wind":
           weather.color = "#cccccc";
+          background[0].style.backgroundImage="url(http://s3.amazonaws.com/engrade-myfiles/4045267454554742/windmilloncloudyday.jpg)";
           break;
         case "fog":
-          weather.color = "#a1a1a1";
+          weather.color = "white";
+          background[0].style.backgroundImage="url(http://www.techbucket.org/wp-content/uploads/2009/04/6.jpg?1db863)";
           break;
         case "cloudy":
-          weather.color = "#c8dee6";
+          weather.color = "cornflowerblue";
+          background[0].style.backgroundImage="url(https://wallpapersfun.files.wordpress.com/2011/08/cloudy_sky.jpg)";
           break;
         case "partly-cloudy-day":
           weather.color = "#a3e0f8";
+          background[0].style.backgroundImage="url(http://onceuponatimeblog.weebly.com/uploads/5/8/3/1/5831762/474426177_orig.jpg?248)";
           break;
         case "partly-cloudy-night":
-          weather.color = "#448ccb";
+          weather.color = "white";
+          background[0].style.backgroundImage="url(http://orig04.deviantart.net/170c/f/2012/225/d/e/cloudy_sky_by_muggi93-d5ay7im.jpg)";
           break;
         default:
           weather.color = "#000"
