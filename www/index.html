@@ -5,12 +5,11 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <title></title>
 
-    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
+    <!-- <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet"> -->
 
-    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
-    <link href="css/ionic.app.css" rel="stylesheet">
-    -->
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above -->
+    <link href="css/ionic.app.css" rel="stylesheet">  
 
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
@@ -18,17 +17,28 @@
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
 
+    <!-- Skycons! -->
+    <script src="lib/bower_components/skycons/skycons.js"></script>
+    <script src="lib/bower_components/angular-skycons/angular-skycons.js"></script>
+
     <!-- your app's js -->
     <script src="js/app.js"></script>
   </head>
   <body ng-app="starter">
 
     <ion-pane>
-      <ion-header-bar class="bar-stable">
-        <h1 class="title">Ionic Blank Starter</h1>
+      <ion-header-bar class="bar-calm">
+        <h1 class="title">MY AWESOME WEATHER APP</h1>
       </ion-header-bar>
-      <ion-content>
+      <ion-content ng-controller="weatherController as weather">
+        <div id="container">
+          <h2>{{weather.temp}}˚F</h2>
+          <skycon icon="weather.icon" size="200" color="weather.color"></skycon>
+        </canvas>
+        </div>
       </ion-content>
     </ion-pane>
+
+
   </body>
 </html>
