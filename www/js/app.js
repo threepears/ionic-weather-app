@@ -23,6 +23,11 @@ angular.module('starter', ['ionic', 'angular-skycons'])
   });
 })
 
+/* Weather Underground API Key: 96cf1cbcd544844c 
+http://api.wunderground.com/api/96cf1cbcd544844c/conditions/q/37.776289,-122.395234.json
+
+*/
+
 .controller("weatherController", function($http) {
 
   this.temp = "--";
