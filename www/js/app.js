@@ -33,21 +33,33 @@ http://api.wunderground.com/api/96cf1cbcd544844c/conditions/q/37.776289,-122.395
   this.temp = "--";
   var weather = this;
 
+  var geoip = "http://api.wunderground.com/api/96cf1cbcd544844c/geolookup/conditions/q/autoip.json";
+
+  $http.get(geoip).then(function(result) {
+
+    var background = document.getElementsByClassName("pane");
+      
+    weather.temp = Math.round(result.data.current_observation.temp_f);
+    weather.icon = result.data.current_observation.weather;
+
+
+
+/*
   navigator.geolocation.getCurrentPosition(function(geopos) {
     var lat = geopos.coords.latitude;
     var long = geopos.coords.longitude;
     var apikey = "cb0400a52a7a4983a587e37ed148cf4a";
-    var url = "/api/forecast/" + apikey + "/" + lat + "," + long;
+    var url = "/api/forecast/" + apikey + "/" + lat + "," + long;*/
 
-    $http.get(url).then(function(res) {
+/*    $http.get(url).then(function(res) {
       
       var background = document.getElementsByClassName("pane");
       
       weather.temp = Math.round(res.data.currently.temperature);
-      weather.icon = res.data.currently.icon;
+      weather.icon = res.data.currently.icon;*/
 
       switch (weather.icon) {
-        case "clear-day":
+        case "Clear":
           weather.color = "yellow";
           background[0].style.backgroundImage="url(http://www.hdwallpapers.in/walls/sunny_day-wide.jpg)";
           break;
@@ -93,7 +105,7 @@ http://api.wunderground.com/api/96cf1cbcd544844c/conditions/q/37.776289,-122.395
   
       console.log(weather.icon);
     })
-  });
+/*  });*/
 
   /*  this.img = "http://icons.iconarchive.com/icons/large-icons/large-weather/512/partly-cloudy-day-icon.png";*/
 });

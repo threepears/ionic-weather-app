@@ -18,8 +18,8 @@
     <script src="cordova.js"></script>
 
     <!-- Skycons! -->
-    <script src="lib/bower_components/skycons/skycons.js"></script>
-    <script src="lib/bower_components/angular-skycons/angular-skycons.js"></script>
+    <script src="lib/skycons/skycons.js"></script>
+    <script src="lib/angular-skycons/angular-skycons.js"></script>
 
     <!-- your app's js -->
     <script src="js/app.js"></script>
@@ -27,9 +27,15 @@
   <body ng-app="starter">
 
     <ion-pane>
-      <ion-header-bar class="bar-calm">
-        <h1 class="title">MY AWESOME WEATHER APP</h1>
-      </ion-header-bar>
+      <div class="bar bar-calm item-input-inset">
+        <label class="item-input-wrapper">
+          <i class="icon ion-ios-search placeholder-icon"></i>
+          <input type="search" placeholder="Enter Your Location">
+        </label>
+        <button class="button button-clear">
+          Cancel
+        </button>
+      </div>
       <ion-content ng-controller="weatherController as weather">
         <div id="container">
           <h2>{{weather.temp}}˚F</h2>
