@@ -33,14 +33,160 @@ http://api.wunderground.com/api/96cf1cbcd544844c/conditions/q/37.776289,-122.395
   this.temp = "--";
   var weather = this;
 
-  var geoip = "http://api.wunderground.com/api/96cf1cbcd544844c/geolookup/conditions/q/autoip.json";
+  var url = "http://api.wunderground.com/api/96cf1cbcd544844c/geolookup/conditions/q/autoip.json";
 
-  $http.get(geoip).then(function(result) {
+
+  var parseUrl = function(result) {
+
+    console.log(result);
 
     var background = document.getElementsByClassName("pane");
       
     weather.temp = Math.round(result.data.current_observation.temp_f);
     weather.icon = result.data.current_observation.weather;
+
+    console.log(weather.icon);
+    
+    switch (weather.icon) {
+      case "Clear":
+      case "Mostly Sunny":
+      case "Sunny":
+        weather.color = "yellow";
+        background[0].style.backgroundImage="url(http://www.hdwallpapers.in/walls/sunny_day-wide.jpg)";
+        break;
+      case "Unknown":
+        weather.color = "lightskyblue";
+        background[0].style.backgroundImage="url(http://s19.postimg.org/4m9yp49fn/weather_bg_sunny_night_sky.jpg)";
+        break;
+      case "Rain":
+      case "Chance of Rain":
+      case "Chance Rain":
+      case "Chance of Thunderstorms":
+      case "Chance of a Thunderstorm":
+      case "Thunderstorms":
+      case "Thunderstorm":
+        weather.color = "lightskyblue";
+        background[0].style.backgroundImage="url(http://cdn.allwallpaper.in/wallpapers/1920x1080/4324/night-rain-skies-water-weather-1920x1080-wallpaper.jpg)";
+        break;
+      case "Snow":
+      case "Chance of Flurries":
+      case "Chance of Snow":
+      case "Flurries":
+        weather.color = "#cccccc";
+        background[0].style.backgroundImage="url(http://stuffpoint.com/the-winter/image/40739-the-winter-winter.jpg)";
+        break;
+      case "Sleet":
+      case "Chance of Freezing Rain":
+      case "Chance of Sleet":
+      case "Freezing Rain":
+        weather.color = "white";
+        background[0].style.backgroundImage="url(https://i.ytimg.com/vi/7vZMj9GNJBA/maxresdefault.jpg)";
+        break;
+      case "wind":
+        weather.color = "#cccccc";
+        background[0].style.backgroundImage="url(http://s3.amazonaws.com/engrade-myfiles/4045267454554742/windmilloncloudyday.jpg)";
+        break;
+      case "Fog":
+      case "Haze":
+        weather.color = "white";
+        background[0].style.backgroundImage="url(http://www.techbucket.org/wp-content/uploads/2009/04/6.jpg?1db863)";
+        break;
+      case "Cloudy":
+        weather.color = "cornflowerblue";
+        background[0].style.backgroundImage="url(https://wallpapersfun.files.wordpress.com/2011/08/cloudy_sky.jpg)";
+        break;
+      case "Partly Cloudy":
+      case "Mostly Cloudy":
+      case "Partly Sunny":
+      case "Scattered Clouds":
+      case "Overcast":
+        weather.color = "#a3e0f8";
+        background[0].style.backgroundImage="url(http://onceuponatimeblog.weebly.com/uploads/5/8/3/1/5831762/474426177_orig.jpg?248)";
+        break;
+      case "partly-cloudy-night":
+        weather.color = "white";
+        background[0].style.backgroundImage="url(http://orig04.deviantart.net/170c/f/2012/225/d/e/cloudy_sky_by_muggi93-d5ay7im.jpg)";
+        break;
+      default:
+        weather.color = "#000"
+    }
+
+    return result;
+
+  }
+
+
+
+  weather.search = function() {
+    $http.get(url + weather.searchQuery + ".json")
+    .then(parseUrl)
+    .then(function(result) {
+
+      var history = JSON.parse(localStorage.getItem("searchHistory")) || {};
+
+      var cityState = result.data.current_observation.display_location.full;
+      var location = result.data.current_observation.station_id;
+
+      history[cityState] = location;
+
+      localStorage.setItem("searchHistory", JSON.stringify(history));
+
+
+
+/*    CITY AS KEY, STATION AS VALUE
+
+      var cityState = result.data.current_observation.display_location.full;
+      var location = result.data.current_observation.station_id;
+
+      if (localStorage.getItem(cityState) === null) {
+        localStorage.setItem(cityState, location);
+      }*/
+
+
+/*    SCOTT CODE - "SEARCH HISTORY" AND ARRAY
+
+      var history = JSON.parse(localStorage.getItem("searchHistory")) || [];
+      var location = result.data.current_observation.station_id;
+
+      if (history.indexOf(location) === -1) {
+        history.push(location);
+        localStorage.setItem("searchHistory", JSON.stringify(history));
+      }*/
+
+
+/*    MY FAILED CODE
+
+      var location = result.data.current_observation.station_id;
+      console.log(location);
+      var storage = localStorage.getItem("Search history");
+      console.log(storage);
+
+      if (storage === null) {
+        localStorage.setItem("Search history", "[]");
+      } else {
+        storage = JSON.parse(storage);
+        console.log(storage);
+
+        for (var i = 0; i < storage.length; i++) {
+          if (storage[i] !== location) {
+            console.log("INSIDE");
+            storage.push(location);
+          }
+        }
+        var newStorage = JSON.stringify(storage);
+      }
+      localStorage.setItem("Search history", newStorage);*/
+
+    })
+  }
+
+
+  $http.get(url).then(parseUrl);
+
+/*    var background = document.getElementsByClassName("pane");
+      
+    weather.temp = Math.round(result.data.current_observation.temp_f);
+    weather.icon = result.data.current_observation.weather;*/
 
 
 
@@ -58,53 +204,6 @@ http://api.wunderground.com/api/96cf1cbcd544844c/conditions/q/37.776289,-122.395
       weather.temp = Math.round(res.data.currently.temperature);
       weather.icon = res.data.currently.icon;*/
 
-      switch (weather.icon) {
-        case "Clear":
-          weather.color = "yellow";
-          background[0].style.backgroundImage="url(http://www.hdwallpapers.in/walls/sunny_day-wide.jpg)";
-          break;
-        case "clear-night":
-          weather.color = "lightskyblue";
-          background[0].style.backgroundImage="url(http://s19.postimg.org/4m9yp49fn/weather_bg_sunny_night_sky.jpg)";
-          break;
-        case "rain":
-          weather.color = "lightskyblue";
-          background[0].style.backgroundImage="url(http://cdn.allwallpaper.in/wallpapers/1920x1080/4324/night-rain-skies-water-weather-1920x1080-wallpaper.jpg)";
-          break;
-        case "snow":
-          weather.color = "#cccccc";
-          background[0].style.backgroundImage="url(http://stuffpoint.com/the-winter/image/40739-the-winter-winter.jpg)";
-          break;
-        case "sleet":
-          weather.color = "white";
-          background[0].style.backgroundImage="url(https://i.ytimg.com/vi/7vZMj9GNJBA/maxresdefault.jpg)";
-          break;
-        case "wind":
-          weather.color = "#cccccc";
-          background[0].style.backgroundImage="url(http://s3.amazonaws.com/engrade-myfiles/4045267454554742/windmilloncloudyday.jpg)";
-          break;
-        case "fog":
-          weather.color = "white";
-          background[0].style.backgroundImage="url(http://www.techbucket.org/wp-content/uploads/2009/04/6.jpg?1db863)";
-          break;
-        case "cloudy":
-          weather.color = "cornflowerblue";
-          background[0].style.backgroundImage="url(https://wallpapersfun.files.wordpress.com/2011/08/cloudy_sky.jpg)";
-          break;
-        case "partly-cloudy-day":
-          weather.color = "#a3e0f8";
-          background[0].style.backgroundImage="url(http://onceuponatimeblog.weebly.com/uploads/5/8/3/1/5831762/474426177_orig.jpg?248)";
-          break;
-        case "partly-cloudy-night":
-          weather.color = "white";
-          background[0].style.backgroundImage="url(http://orig04.deviantart.net/170c/f/2012/225/d/e/cloudy_sky_by_muggi93-d5ay7im.jpg)";
-          break;
-        default:
-          weather.color = "#000"
-      }
-  
-      console.log(weather.icon);
-    })
 /*  });*/
 
   /*  this.img = "http://icons.iconarchive.com/icons/large-icons/large-weather/512/partly-cloudy-day-icon.png";*/
